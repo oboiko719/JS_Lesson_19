@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta content="IE=edge" http-equiv="X-UA-Compatible">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<title>Document</title>
+	<style>
+		body {
+			background-color: rgb(208, 202, 202);
+			margin: 0;
+		}
+		#snow-container,
+		#snow-container1 ,
+		#snow-container2  {
+			position: fixed;
+			overflow: hidden;
+			top: 0;
+			width: 100vw;
+			height: 100vh;			
+		}
+
+		#snow-container {			
+			left: 00%
+		}
+
+		#snow-container1 {			
+			left: 30%
+		}
+		#snow-container2 {			
+			left: 50%
+		}
+		.snowflake {
+			position: absolute;
+			width: 30px;
+			height: 30px;
+			background-color: rgb(125, 183, 240);
+			border-radius: 50%;			
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Задача 7</h1>
+	<p>
+		Відобразити падаючий сніг. Сніжинка з’являється у верхній частині екрану (top =0) і
+		з випадковою швидкістю рухається вниз (у setInterval викликати метод, у якому додавати крок до top).
+		Як тільки сніжинка досягає нижньої частини екрану (top>maxTop) вона знову повинна з’явитись у верхній частині екрану
+		(top=0).
+	</p>
+	<div id="container">
+		<div id="snow-container"></div>
+		<div id="snow-container1"></div>
+		<div id="snow-container2"></div>
+	</div>
+	
+
+	<script>
+			class Snowflake {
+				constructor(container) {
+					this.container = container
+					this.left = 0;
+					this.top = 0;
+				}
+
+				getRandomStep(min, max) {
+		        return min + Math.floor(Math.random() * (max - min +1))
+		      }
+
+				move() {
+					const maxTop = this.container.clientHeight
+
+					this.top += this.getRandomStep(1, 8)
+
+					if (this.left === 0) {
+						this.left = this.getRandomStep(1, 100);
+						this.div.style.left = this.left + '%';
+					}
+
+					if (this.top > maxTop){ 
+						this.top = 0
+					}
+						this.div.style.top = this.top + 'px';
+
+				}
+
+				render (containerSelector) {
+					this.div = document.createElement('div')
+					this.div.className = 'snowflake'
+
+					if (containerSelector) {
+						document.querySelector(containerSelector).append(this.div)
+					}		          
+				}
+		} 
+
+		window.onload = function () {
+			const container = document.getElementById('snow-container')
+
+			const snow = new Snowflake(container)
+			snow.render('#snow-container')
+
+			const snow1 = new Snowflake(container)
+			snow1.render('#snow-container')
+
+			const snow2 = new Snowflake(container)
+			snow2.render('#snow-container')
+			
+			setInterval(() => {
+         snow.move();
+				 snow1.move();
+				 snow2.move();
+     	}, 50)
+		}
+	</script>
+</body>
+
+</html>

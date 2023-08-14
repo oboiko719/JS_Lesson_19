@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta content="IE=edge" http-equiv="X-UA-Compatible">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<title>Document</title>
+	<style>
+		.container {
+			display: flex;
+			gap: 30px;
+		}
+	</style>
+</head>
+<body>
+	<h1>Задача 3</h1>
+	<p>    
+		Дано 5 випадковим чином згенерованих нумерованих списків з рандомними числами 
+		(кількість елементів у списку випадкова від 1 до 10, елементи випадкові – 
+		від 1 до 100). При натисненні на кнопку нумеровані списки з парною кількістю 
+		елементів зафарбувати у зелений колір, інші у червоний.
+	</p>
+	<div class="container"></div>
+	
+	<script>
+	class RandomList {
+		constructor (numElement, containerSelector) {
+			this.numElement = numElement
+			this.containerSelector = containerSelector
+			this.render()
+		}
+
+		getColorList () {
+			const lists = document.querySelectorAll('ol')
+
+			for (const list of lists) {
+				const items = list.querySelectorAll('li')
+				items.forEach((li) => {
+						if (items.length % 2 === 0) {
+							list.style.color = 'green'
+						}else {
+							list.style.color = 'red'
+						}
+				})
+			}			
+		}
+
+		getRandom (min, max) {
+			return min + Math.floor(Math.random() * (max - min) + 1)
+		}
+
+		render() {
+
+      for (let i = 1; i <= this.numElement; i++) {
+				let list = document.createElement('ol')
+				let randList = this.getRandom(1, 10)
+					for (let j = 1; j <= randList; j++){
+						let item = document.createElement('li')
+						let randItem = this.getRandom(1, 100)
+						item.innerText = randItem
+						list.append(item)				
+					}        
+        if (this.containerSelector)     
+				document.querySelector(this.containerSelector).append(list)
+      }
+			let btn = document.createElement('button')
+			btn.innerText = 'ЗАФАРБУВАТИ'
+			btn.onclick = this.getColorList.bind(this)
+			document.body.append(btn)
+    }
+	}
+
+	window.onload = function () {
+    let res = new RandomList(5, '.container')
+   }
+	
+	</script>
+</body>
+</html>

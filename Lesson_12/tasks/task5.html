@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Задача 5</h1>
+  <p>
+    Дано масив імен. Застосовуючи відповідне сортування та бінарний пошук визначити, чи є у масиві ім’я «Olga» і під яким індексом
+  </p>
+
+  <script>
+const namesArr = [ "Nastya", "Olga", "Vlad", "Ivan", "Myhailo", "Alice","Pavlo", "Sergiy"]
+    document.write(namesArr)
+    document.write(`<br>Відсортований масив імен:<br>`)
+    
+namesArr.sort()
+    document.write(namesArr)
+
+    //ф-ція двійкового бінарного пошуку
+function binarySearch(arr, searchElement) {
+  let start = 0
+  let end = arr.length-1
+
+  while (start <= end) {
+    const middle = Math.floor((start + end) / 2) //середина масиву
+
+    if (arr[middle] === searchElement) return middle
+    if (arr[middle] < searchElement) start = middle +1 //шукаємо в правій частині
+    if (arr[middle] > searchElement) end = middle -1 //шукаємо в лівій частині
+  }
+  return -1 //не має такого імені
+}
+
+//виклик функції з введеними параметрами    
+    const searchName = "Olga"
+    const indexSearchName = binarySearch(namesArr, searchName)
+    
+//виведення результатів
+if (indexSearchName !== -1) {
+  document.write(`<br>Ім'я "${searchName}" знайдено під індексом ${indexSearchName}.`);
+} else {
+  document.write(`Ім'я "${searchName}" не знайдено в масиві.`);
+}
+  </script>
+</body>
+</html>

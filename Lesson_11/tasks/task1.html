@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>Задача 1</h1>
+  <p>
+    Знайти суми елементів у вказаній області
+  </p>
+
+  <script>
+    function getRandomNum(minValue, maxValue) {
+      return minValue + Math.floor(Math.random() * (maxValue - minValue + 1))
+    }
+//генерування одновимірного масиву
+    function generateRandomArray(arrayLength, minValue, maxValue) {
+      const arr = []
+
+      for (let i = 0; i < arrayLength; i++) {
+        const randNum = getRandomNum(minValue, maxValue)
+        arr.push(randNum)
+      }
+      return arr
+    }
+//генерування двовимірного масиву
+    function generateRandomTable(
+      rowsNumber, 
+      columnsNumber, 
+      minValue, 
+      maxValue
+    ) {
+      const table = []
+
+      for (let i = 0; i < rowsNumber; i++) {
+        const randomRow = generateRandomArray(columnsNumber, minValue, maxValue)
+        table.push(randomRow)
+      }
+      return table
+    }
+//функція для обчислення суми секцій
+    function getSumSection(
+      table, 
+      startRowIndex, 
+      endRowIndex, 
+      startColumnIndex, 
+      endColumnIndex, 
+      stepRowIndex = 1, 
+      stepColumnIndex = 1
+    ) {
+      let sum = 0
+
+      for (let rowIndex = startRowIndex; rowIndex < endRowIndex; rowIndex = rowIndex + stepRowIndex) {
+        for (let columnIndex = startColumnIndex; columnIndex < endColumnIndex; columnIndex = columnIndex + stepColumnIndex) {
+          sum += table[rowIndex][columnIndex]
+          console.log(table[rowIndex][columnIndex]);
+        }
+      }
+      return sum
+    }
+
+// Ф-ція для обчислення суми у парних рядках - непарні стовпці, у непарних - парні
+//Варіант 1=============з перевіркою умови
+    // function getSumOddColsEvenRows(
+    //   table, 
+    //   startRowIndex, 
+    //   endRowIndex, 
+    //   startColumnIndex, 
+    //   endColumnIndex, 
+    //   stepRowIndex = 1, 
+    //   stepColumnIndex = 1
+    // ) {
+    //   let sum = 0
+
+    //   for (let rowIndex = startRowIndex; rowIndex < endRowIndex; rowIndex = rowIndex + stepRowIndex) {
+    //     for (let columnIndex = startColumnIndex; columnIndex < endColumnIndex; columnIndex = columnIndex + stepColumnIndex) {
+    //       if(rowIndex%2 === 0 && columnIndex%2 !== 0 || rowIndex%2 !== 0 && columnIndex%2 === 0) {
+    //         sum += table[rowIndex][columnIndex]
+    //       console.log(table[rowIndex][columnIndex]);
+    //       }
+    //     }
+    //   }
+    //      return sum
+    // }
+
+// Ф-ція для обчислення суми у парних рядках - непарні стовпці, у непарних - парні
+//Варіант 2=============з використанням кроків
+// function getSumOddColsEvenRows(table) {
+//       let sum = 0
+//                   //у парних рядках - не парні стовпці
+//       for (let rowIndex = 0; rowIndex < table.length; rowIndex +=2) {
+//         for (let columnIndex = 1; columnIndex < table[rowIndex].length; columnIndex +=2) {
+          
+//             sum += table[rowIndex][columnIndex]
+//           console.log(table[rowIndex][columnIndex])
+          
+//         }
+//       }
+//                  //у непарних рядках - парні стовпці
+//       for (let rowIndex = 1; rowIndex < table.length; rowIndex +=2) {
+//         for (let columnIndex = 0; columnIndex < table[rowIndex].length; columnIndex +=2) {
+          
+//             sum += table[rowIndex][columnIndex]
+//           console.log(table[rowIndex][columnIndex])
+          
+//         }
+//       }
+//       return sum
+//     }
+
+//Ф-ція для обчислення суми у парних рядках - непарні стовпці, у непарних - парні
+//Bаріант третій
+      function getSumOddColsEvenRows(table) {
+        let sum = 0
+
+        for (let rowIndex = 0; rowIndex < table.length; rowIndex ++) {
+
+            if (rowIndex % 2 === 0) { // Парний рядок
+
+              for (let columnIndex = 1; columnIndex < table[rowIndex].length; columnIndex += 2) {
+                sum += table[rowIndex][columnIndex]
+                console.log(table[rowIndex][columnIndex])
+              }
+
+            } else { // Непарний рядок
+
+              for (let columnIndex = 0; columnIndex < table[rowIndex].length; columnIndex += 2) {
+                sum += table[rowIndex][columnIndex]
+                console.log(table[rowIndex][columnIndex])
+              }
+
+            }
+          }
+          return sum
+    }
+      
+    const minValue = 1;
+    const maxValue = 9;
+    const userRowsNumber = parseInt(prompt('Кількість рядків двовимірного масиву', '4'))
+    const userColumnsNumber = parseInt(prompt('Кількість стовпців двовимірного масиву', '6'))
+    const table = generateRandomTable(userRowsNumber, userColumnsNumber, minValue, maxValue)
+//фунція для виведення двовимірного масиву
+    function printTable(array) {
+      let table = '<table>';
+
+      for (let i = 0; i < array.length; i++) {
+        table += '<tr>';
+
+        for (let j = 0; j < array[i].length; j++) {
+          table += '<td>' + array[i][j] + '</td>';
+        }
+
+        table += '</tr>';
+      }
+
+      table += '</table>';
+      return table;
+    }
+
+    const halfRowLength = Math.floor(table.length / 2)
+    const halfColumnLength = Math.floor(table[0].length / 2)
+    const rowLength = table.length
+    const columnLength = table[0].length
+//виклик функцій
+    const sumFirstSection = getSumSection(table, 0, halfRowLength, 0, halfColumnLength)
+    const sumSecondSection = getSumSection(table, 0, halfRowLength, halfColumnLength, columnLength)
+    const sumThirdSection = getSumSection(table, halfRowLength, rowLength, 0, halfColumnLength)
+    const sumFourSection = getSumSection(table, halfRowLength, rowLength, halfColumnLength, columnLength)
+//сума парних рядків
+    const sumEvenRows = getSumSection(table, 2, rowLength, 0, columnLength, 2, 1)
+//сума непарних стовпців
+    const sumOddColumns = getSumSection(table, 0, rowLength, 1, columnLength, 1, 2)
+//у парних рядках - непарні стовпці, у непарних - парні
+//=========з перевіркою умови
+    //const sumOddColsEvenRows = getSumOddColsEvenRows(table, 0, rowLength, 0, columnLength)
+//=========з використання кроків
+    const sumOddColsEvenRows = getSumOddColsEvenRows(table, 0, rowLength, 0, columnLength)
+//виведення результатів
+    document.write(printTable(table))
+    document.write(`<br>`)
+    document.write(`1 секція - ${sumFirstSection}<br>`)
+    document.write(`2 секція - ${sumSecondSection}<br>`)
+    document.write(`3 секція - ${sumThirdSection}<br>`)
+    document.write(`4 секція - ${sumFourSection}<br>`)
+    document.write(`5. сума парних рядків - ${sumEvenRows}<br>`)
+    document.write(`6. сума непарних стовпців - ${sumOddColumns}<br>`)
+    document.write(`7. у парних рядках - непарні стовпці, у непарних - парні - ${sumOddColsEvenRows}<br>`)
+
+  </script>
+</body>
+
+</html>

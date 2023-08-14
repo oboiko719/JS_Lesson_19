@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Document</title>
+    <style>
+        .selected {
+            border: 2px solid green;
+        }
+        .container {
+            display: flex;
+            gap: 30px;
+            text-align: center;                     
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Задача 5</h1>
+    <p>
+        Відображаємо картки товарів, які користувач може вибирати.
+        Вибраний товар має зелену рамку (при кліку робити toogle з класом вибраного елемента)
+    </p>
+    <div class="container"></div>
+
+    <script>
+        class CardsProduct {
+            constructor({ imgSrc, title, price }) {
+                this.imgSrc = imgSrc
+                this.title = title
+                this.price = price
+            }
+
+            chooseCard(e) {
+                e.preventDefault()
+                const target = e.currentTarget
+
+                const card = target.closest('.card-container')
+
+                const selectedCard = document.querySelector('.card.selected');
+
+                if (selectedCard) {
+                    selectedCard.classList.toggle('selected');
+                }
+                card.classList.toggle('selected')
+            }
+
+            render(containerSelector) {
+                const cardContainer = document.createElement('a')
+                cardContainer.setAttribute('href', '#')
+                cardContainer.className = 'card-container'
+
+                const imgContainer = document.createElement('div')
+                imgContainer.className = 'img-container'
+                cardContainer.append(imgContainer)
+
+                const img = document.createElement('img')
+                img.setAttribute('src', this.imgSrc)
+                img.className = 'card-image'
+                imgContainer.append(img)
+
+                const cardTitle = document.createElement('div')
+                cardTitle.className = 'card-title'
+                cardTitle.innerText = this.title
+
+                cardContainer.append(cardTitle)
+
+                const cardPrice = document.createElement('div')
+                cardPrice.className = 'card-price'
+                cardPrice.innerText = this.price
+
+                cardContainer.append(cardPrice)
+
+
+                cardContainer.onclick = this.chooseCard.bind(this) //подія
+
+
+                if (containerSelector)
+                    document.querySelector(containerSelector).append(cardContainer)
+
+                return cardContainer
+            }
+        }
+
+        const listProduct = [
+            {
+                imgSrc: '../img/1.jpg',
+                title: 'Диван кутовий Life',
+                price: '13 999грн'
+            },
+            {
+                imgSrc: '../img/2.jpg',
+                title: 'Диван кутовий Spais',
+                price: '34 459грн'
+            },
+            {
+                imgSrc: '../img/3.jpg',
+                title: 'Диван трансформер Pearl',
+                price: '15 259 грн'
+            },
+        ]
+
+        window.onload = function () {
+            for (const itemProduct of listProduct) {
+                new CardsProduct(itemProduct).render('.container')
+            }
+        }
+    </script>
+</body>
+
+</html>

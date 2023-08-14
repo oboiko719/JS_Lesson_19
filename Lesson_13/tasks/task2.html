@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Задача 2</h1>
+  <p>
+    Реалізувати бінарний пошук (розглядали на попередніх уроках) з використанням рекурсивного алгоритму.
+  </p>
+
+  <script>
+  function getRandomNum(minValue, maxValue) {
+      return minValue + Math.floor(Math.random() * (maxValue - minValue + 1))
+    }
+//генерування одновимірного масиву
+    function generateRandomArray(arrayLength, minValue, maxValue) {
+      const arr = []
+
+      for (let i = 0; i < arrayLength; i++) {
+        const randNum = getRandomNum(minValue, maxValue)
+        arr.push(randNum)
+      }
+      return arr
+    }
+//ф-ція двійкового бінарного пошуку з уроку 12
+// function binarySearch(arr, searchElement) {
+//   let start = 0
+//   let end = arr.length-1
+
+//   while (start <= end) {
+//     const middle = Math.floor((start + end) / 2) //середина масиву
+
+//     if (arr[middle] === searchElement) return middle
+//     if (arr[middle] < searchElement) start = middle +1 //шукаємо в правій частині
+//     if (arr[middle] > searchElement) end = middle -1 //шукаємо в лівій частині
+//   }
+//   return -1 //не має такого імені
+// }
+
+function binarySearchRecursive(arr, searchElement, start = 0, end = arr.length-1) {
+    if (start > end) return -1
+
+    const middle = Math.floor((start + end) / 2)
+
+    if (arr[middle] === searchElement) return middle
+    else if (arr[middle] < searchElement) return binarySearchRecursive(arr, searchElement, middle +1, end)
+    else  return binarySearchRecursive(arr, searchElement, start, middle -1)
+}
+
+//виклик функцій з введеними параметрами
+      const minValue = 1;
+      const maxValue = 30;
+      const arrayLength = 10
+    const arr = generateRandomArray(arrayLength, minValue, maxValue)
+    arr.sort((a, b) => a - b )
+
+    const searchElement = 8    
+    const indexSearchElement = binarySearchRecursive(arr, searchElement)
+
+    //виведення результатів    
+    document.write(`[${arr}]`)
+    document.write(`<br>`)
+
+if (indexSearchElement !== -1) {
+  document.write(`<br>Елемент "${searchElement}" знайдено під індексом ${indexSearchElement}.`);
+} else {
+  document.write(`Елемент "${searchElement}" не знайдено в масиві.`);
+}
+  </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta content="IE=edge" http-equiv="X-UA-Compatible">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<title>Document</title>
+</head>
+<body>
+	<h1>Задача 6</h1>
+	<p>
+		Користувач задає кількість оцінок і натискає на кнопку «get table». 
+		В результаті формується таблиця з input, куди користувач вводить оцінки. 
+		Після цього натискає на кнопку “get sum” і знаходить середнє значення.   
+  </p>
+	<label for="numMark">Кількість оцінок</label>
+	<input id="numMark" type="number">    
+	<button id="getTable" type="button">Get TAble</button>
+	<table id="gradeTable" border="1px">
+		
+	</table>
+	<button id="getSum" type="button">Get Sum</button>
+	<p id="average"></p>
+
+	<script>
+	const getTableButton = document.getElementById('getTable')
+	const gradeTable = document.getElementById('gradeTable')
+	const getSumButton = document.getElementById('getSum')
+	const averageElement = document.getElementById('average')
+
+	
+
+	getTableButton.addEventListener('click', () => {
+		const numMark = parseInt(document.getElementById('numMark').value)		
+		generateTable(1, numMark)
+	})
+
+		function generateTable(rows, cols) {
+			gradeTable.innerHTML = '' // очищення попередньої таблиці
+
+			for (let i = 0; i < rows; i++) {
+				const tr = document.createElement('tr')// -рядок
+				for (let j = 0; j < cols; j++) {
+					const td = document.createElement('td')// -колонка
+					const input = document.createElement('input')
+					input.type = 'number'
+					td.appendChild(input)
+					tr.appendChild(td)
+				}
+				gradeTable.appendChild(tr)
+			}
+		}
+
+		getSumButton.addEventListener('click', () => {
+			const inputs = document.querySelectorAll('input')
+			let sum = 0
+			let count = 0
+
+			inputs.forEach(input => {
+				if(input.value !== '') {
+					sum += parseInt(input.value)
+					count++
+				}
+			})
+
+			if(count === 0) throw new Error('Некоректне значення')
+
+			const averageVal = sum / count
+			averageElement.innerText = averageVal.toFixed(2)
+		})
+
+	</script>
+</body>
+</html>

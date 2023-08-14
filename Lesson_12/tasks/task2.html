@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Задача 2</h1>
+  <p>
+    Дано масив 30 випадкових цілих чисел. Підрахувати скільки було обмінів під час сортування змішуванням
+  </p>
+
+  <script>
+function getRandomNum(minValue, maxValue) {
+      return minValue + Math.floor(Math.random() * (maxValue - minValue + 1))
+    }
+//генерування одновимірного масиву
+function generateRandomArray(arrayLength, minValue, maxValue) {
+      const arr = []
+
+      for (let i = 0; i < arrayLength; i++) {
+        const randNum = getRandomNum(minValue, maxValue)
+        arr.push(randNum)
+      }
+      return arr
+    }
+
+//функція сортування 'змішуванням'
+function swap(arr, i, j) {
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+}
+
+function mixSort(arr) {
+  let leftIndex = 0 //лівий край 
+  let rightIndex = arr.length - 1 //правий край
+  let counter = 0
+
+  while (leftIndex < rightIndex) { //цикл буде продовжуватись, доки ліва границя не збігається з правою
+
+    for (let i = leftIndex; i < rightIndex; i++) { // перший прохід сортує елементи у зростаючому порядку
+
+      if (arr[i] > arr[i+1]) { //якщо ці двоє не впорядковані
+        swap(arr, i, i+1)  //то вони обмінюються 
+      }
+
+      counter++      
+    }
+
+    rightIndex-- //найб.ел. стає на ост.позицію і вже не бере участь у сортуванні, бо зона сортування зменш-я
+    
+
+    for (let i = leftIndex; i > rightIndex; i--) {
+
+      if (arr[i] < arr[i-1]) {
+        swap(arr, i, i-1)
+      }
+
+      counter++      
+    }
+
+    leftIndex++  //найм.ел. стає на першу.позицію і вже не бере участь у сортуванні, бо зона сортування зменш-я    
+  }
+  return counter
+} 
+
+//виклик функцій з введеними параметрами
+    const minValue = 1;
+    const maxValue = 100;
+    const arrayLength = 30
+
+    const arr = generateRandomArray(arrayLength, minValue, maxValue)
+    const sortMix = mixSort(arr)
+//виведення результатів
+    document.write(`[${arr}]`)
+    document.write(`<br>`)
+    document.write(`${sortMix} - обмінів під час сортування змішуванням`)    
+  </script>
+</body>
+</html>

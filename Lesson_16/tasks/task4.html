@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta content="IE=edge" http-equiv="X-UA-Compatible">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<title>Document</title>
+</head>
+<body>
+	<h1>Задача 4</h1>
+	<p>
+    Створити клас TBankomat, який моделює роботу банкомата. Клас повинен містити 
+		поля для зберігання кількості купюр кожного із номіналів від 5 до 200 гривень. 
+		Реалізувати методи знаходження максимальної та мінімальної сум, які може видати банкомат, 
+		та метод зняття деякої суми.
+  </p>
+	<script>
+	class TBankomat {
+        #banknotes
+        constructor(initBanknotes) {
+            this.#banknotes = initBanknotes
+        }
+
+        get Banknotes() {
+            return this.#banknotes
+        }
+
+        // Метод для знаходження максимальної суми
+        maxWithdrawalAmount() {
+            return Object.keys(this.Banknotes).reduce((sum, denomination) => sum + denomination * this.Banknotes[denomination], 0);
+        }
+
+        // Метод для знаходження мінімальної банкноти
+        minWithdrawalAmount() {
+            return Math.min(...Object.keys(this.Banknotes));
+        }
+
+        // Метод для зняття певної суми з банкомата
+        withdraw(amount) {
+                if (amount <= 0) {
+                    return "Недійсна сума";
+                }
+                if (amount > this.maxWithdrawalAmount()) {
+                    return "Недостатньо коштів у банкоматі";
+                }
+
+            const withdrawalBanknotes = {};
+
+            // Масив купюр в порядку спадання щоб почати з найб
+            const denominations = [200, 100, 50, 20, 10, 5];
+
+            for (let value of denominations) {
+                if (amount >= value && this.Banknotes[value] > 0) {
+                    const count = Math.min(Math.floor(amount / value), this.Banknotes[value]);
+                    withdrawalBanknotes[value] = count;
+                    this.Banknotes[value] -= count;
+                    amount -= count * value;
+                }
+            }
+
+            if (amount === 0) {
+                return withdrawalBanknotes;
+            } else {
+                for (let denomination in withdrawalBanknotes) {
+                    this.Banknotes[denomination] += withdrawalBanknotes[denomination];
+                }
+                return "Неможливо видати запитану суму наявними банкнотами";
+            }
+        }
+    }
+
+//  ств клас TBankomat
+
+const bills = {
+    200: 10, 
+    100: 20, 
+    50: 30, 
+    20: 50, 
+    10: 100, 
+    5: 200 
+}
+const resBankomat = new TBankomat(bills);   
+
+console.log("Max сума для зняття:", resBankomat.maxWithdrawalAmount());
+console.log("Min сума для зняття:", resBankomat.minWithdrawalAmount());
+
+const withdrawalResult = resBankomat.withdraw(345);
+console.log("Withdrawal 345 грн:", withdrawalResult);
+	</script>
+</body>
+</html>

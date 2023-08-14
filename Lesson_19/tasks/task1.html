@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta content="IE=edge" http-equiv="X-UA-Compatible">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<title>Document</title>
+</head>
+<body>
+	<h1>Задача 1</h1>
+	<p>		
+		Дано 10 рядків тексту «Hello!» у окремих div. 
+		При кліку на якийсь із них усі наступні повинні бути зафарбовані у червоний колір.
+	</p>
+		<div id="container">
+
+		</div>
+	<script>
+	  class TextColor {
+			constructor (text) {
+				this.text = text
+			}
+
+			render(containerSelector) {
+				const div = document.createElement('div')
+				div.className = 'divText'
+				div.innerText = this.text
+				div.style.cursor = 'pointer'
+				div.onclick = this.changeColor.bind(this)
+
+				if (containerSelector)
+				document.querySelector(containerSelector).append(div)
+			}
+		
+		
+			changeColor() {
+					const allDivs = document.querySelectorAll('.divText')
+
+					allDivs.forEach((div) => {
+						div.style.color = 'red'
+					})
+					
+				}
+			}
+
+		window.onload = function () {
+			const pr = new TextColor('hello')
+
+       for (let i = 0; i < 10; i++) {
+				pr.render('#container')
+			 }
+		}
+
+	</script>
+</body>
+</html>

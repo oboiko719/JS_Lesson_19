@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta content="IE=edge" http-equiv="X-UA-Compatible">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<title>Document</title>
+</head>
+<body>
+	<h1>Задача 1</h1>
+	<p>		
+		Створити клас TDate для роботи із датами у форматі “день.місяць.рік”. 
+		Дата представляється структурою із трьома полями. 
+		Реалізувати 
+			методи збільшення/зменшення дати на певну кількість днів, місяців чи років. 
+			Введення та виведення дати реалізувати за допомогою методу  toString.
+	</p>
+	<script>
+	  class TDate {
+			#day
+			#month
+			#year
+			constructor(initDay, initMonth, initYear) {
+				this.#day = initDay
+				this.#month = initMonth
+				this.#year = initYear
+			}
+
+			get Day() {
+				return this.#day
+			}
+
+			set Day(newDay) {
+				if (newDay < 1 || newDay > 31) {
+					throw new Error('Некоректне значення')
+				}
+				this.#day = newDay
+			}
+
+			get Month() {
+				return this.#month
+			}
+
+			set Month(newMonth) {
+				if (newMonth < 1 || newMonth > 12) {
+					throw new Error('Некоректне значення')
+				}
+				this.#month = newMonth
+			}
+
+			get Year() {
+				return this.#year
+			}
+
+			set Year(newYear) {				
+				if (newYear < 0) {
+					throw new Error('Некоректне значення')
+				}
+				this.#year = newYear
+			}			
+
+  // Метод для виведення дати у форматі "день.місяць.рік"
+  toString() {
+    return `${this.Day}.${this.Month}.${this.Year}`;
+  }
+
+  // Функція для визначення кількості днів у місяці
+  daysInMonth(month, year) {
+    const daysMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    if (month === 2 && (year % 4 === 0 && year % 100 !== 0 || year % 400 === 0)) {
+      return 29
+    }
+    return daysMonth[month - 1]
+  }
+
+  // Збільшити дату на задану кількість днів
+  increaseDays(days) {
+    while (days > 0) {
+      const daysInCurrentMonth = this.daysInMonth(this.Month, this.Year)
+      if (this.Day + days <= daysInCurrentMonth) {
+        this.Day += days
+        days = 0
+      } else {
+        days -= (daysInCurrentMonth - this.Day + 1)
+        this.Day = 1
+        if (this.Month === 12) {
+          this.Month = 1
+          this.Year++
+        } else {
+          this.Month++
+        }
+      }
+    }
+  }
+
+  // Зменшити дату на задану кількість днів
+  decreaseDays(days) {
+    while (days > 0) {
+      if (this.Day - days >= 1) {
+        this.Day -= days
+        days = 0
+      } else {
+        days -= this.Day
+        if (this.Month === 1) {
+          this.Month = 12
+          this.Year--
+        } else {
+          this.Month--
+        }
+        this.Day = this.daysInMonth(this.Month, this.Year)
+      }
+    }
+  }
+
+  // Збільшити дату на задану кількість місяців
+  increaseMonths(months) {
+    this.Year += Math.floor((this.Month + months - 1) / 12)
+    this.Month = (this.Month + months - 1) % 12 + 1
+  }
+
+  // Зменшити дату на задану кількість місяців
+  decreaseMonths(months) {
+    let totalMonths = this.Month + 12 * this.Year - 1
+    totalMonths -= months
+    this.Year = Math.floor(totalMonths / 12)
+    this.Month = (totalMonths % 12) + 1
+  }
+
+  // Збільшити дату на задану кількість років
+  increaseYears(years) {
+    this.Year += years
+  }
+
+  // Зменшити дату на задану кількість років
+  decreaseYears(years) {
+    this.Year -= years
+  }
+}
+
+// Приклад використання
+const date = new TDate(10, 8, 2023);
+console.log(date.toString()); // Виведе: 10.8.2023
+
+date.increaseDays(2)
+console.log(date.toString())
+
+date.decreaseDays(2252)
+console.log(date.toString())
+
+date.increaseMonths(2)
+console.log(date.toString())
+
+date.decreaseMonths(3)
+console.log(date.toString())
+
+date.increaseYears(5)
+console.log(date.toString())
+
+date.decreaseYears(100)
+console.log(date.toString())
+	</script>
+</body>
+</html>

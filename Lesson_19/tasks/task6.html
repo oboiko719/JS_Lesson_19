@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta content="IE=edge" http-equiv="X-UA-Compatible">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<title>Document</title>
+	<style>
+		.red button {
+			background-color: red;
+			transform: rotate(-180deg);
+		}
+
+		.green button {
+			background-color: green;
+
+		}
+
+		.container {
+			display: flex;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Задача 6</h1>
+	<p>
+		Дано список спортсменів. Потрібно сформувати список тих, які будуть
+		брати участь у змаганні. При цьому є два стовпці. В одному відображені всі спортсмени,
+		в іншому – список тих, хто був вибраний. При натисканні на зелену стрілку спортсмен переміщається
+		у список для змагань.При натисканні на червону стрілку спортсмен переміщається у загальний список.
+	</p>
+	<div class="container"></div>
+	<script>
+		class AthleteManager {
+			constructor(athletes) {
+				this.athletes = athletes
+				this.selectedAthletes = []
+			}
+
+			chooseAthletes(e) {
+				const li = e.target.closest('li') 
+				const greenList = document.querySelector('.all-athletes ul')
+				const redList = document.querySelector('.play-athletes ul')
+
+				if (li) {
+					let playerName = li.innerText
+
+					if (!this.selectedAthletes.includes(playerName)) { 
+						this.selectedAthletes.push(playerName)
+						redList.append(li)
+					} else {
+						greenList.append(li)
+						this.selectedAthletes = this.selectedAthletes.filter((player) => player !== playerName)
+					}
+				}
+				return this.selectedAthletes
+			}
+
+			render(containerSelector) {
+				const allAthletes = document.createElement('div')
+				allAthletes.classList.add('all-athletes', 'green')
+				const allTitle = document.createElement('h3')
+				allTitle.innerText = 'Всі спортсмени'
+				allAthletes.append(allTitle)
+				const allList = document.createElement('ul')
+
+				for (let i = 0; i < athletes.length; i++) {
+					const item = document.createElement('li')
+					const btn = document.createElement('button')
+					btn.innerHTML = '==>'
+					btn.onclick = this.chooseAthletes.bind(this)
+					item.innerText = `${this.athletes[i]}`
+					item.append(btn)
+					allList.append(item)
+				}
+				//------------------------------------------
+				allAthletes.append(allList)
+				const playAthletes = document.createElement('div')
+				playAthletes.classList.add('play-athletes', 'red')
+				const playTitle = document.createElement('h3')
+				playTitle.innerText = 'Список змагань'
+				playAthletes.append(playTitle)
+				const playList = document.createElement('ul')
+				playAthletes.append(playList)
+				//------------------------------------------------------------------
+				if (containerSelector) {
+					document.querySelector(containerSelector).append(allAthletes)
+					document.querySelector(containerSelector).append(playAthletes)
+				}
+        //------------------------------------------------------------------
+			}
+		}
+		const athletes = [
+    'Іван Петров',
+    'Оксана Іваненко',
+    'Михайло Василюк',
+    'Софія Данилюк',
+    'Андрій Лисенко',
+    'Марія Коваленко',
+    'Олександр Шевченко',
+    'Анастасія Ткачук',
+    'Павло Кравченко',
+    'Юлія Гриценко'
+];
+
+		window.onload = function () {
+			const athleteManager = new AthleteManager(athletes);
+			athleteManager.render('.container'); // Генерація розмітки.
+		};
+
+	</script>
+</body>
+
+</html>

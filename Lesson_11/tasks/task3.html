@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Задача 3</h1>
+  <p>
+    Морський бій. Випадковим чином на двовимірному полі розміром 6*6 розташовується 5 кораблів. 
+    Користувач стріляє вказуючи координати. Гра продовжується поки не потоплено усі кораблі або у 
+    користувача не закінчаться снаряди
+  </p>
+
+  <script>
+//ф-ція для створення пустого поля 6x6 з нулями
+    function generateFieldZero(rows, cols) {
+      const field = []
+      for (let i = 0; i < rows; i++) {
+        const row = new Array(cols).fill(0)
+        field.push(row)
+      }
+      return field
+    }
+
+// ф-ція для розміщення заданої к-ті кораблів на полі (позн.1)
+    function getfillShips(field, shipNum) {
+      let countShips = 0
+       const min = 0
+       const max = shipNum 
+      while (countShips < shipNum) {
+        const row = Math.floor(Math.random() * (max - min + 1) + min)
+        const col = Math.floor(Math.random() * (max - min + 1) + min)
+        if (field[row][col] === 0) {
+          field[row][col] = 1
+          countShips++
+        }
+      }
+    }
+
+// функція гри
+    function gameSeaBattle(rows, cols, shellNum, shipNum) {
+      let counterShellNum = shellNum
+  //викликаємо функцію для ств поля з нулями
+      const field = generateFieldZero(rows, cols)    
+  //запускаємо функцію для розм рандомно кораблів на полі
+      getfillShips(field, shipNum)
+
+      while (counterShellNum > 0) { 
+        console.log(`Залишилось пострілів: ${counterShellNum}`)
+        printField(field)
+
+        const row = parseInt(prompt('У вас є 10 снарядів щоб потопити 5 кораблів. Для пострілу введіть рядок (0-5):'))
+        const col = parseInt(prompt('А зараз введіть стовпець (0-5):'))
+
+        if (field[row] && field[row][col] === 1) {
+          console.log('Ви влучили корабель!')
+          field[row][col] = '+'
+        } else if (field[row] && field[row][col] === '+') {
+          console.log('Тут уже потоплений корабель!')
+        } else if (field[row]) {
+          console.log('Мимо!')
+        } else {
+          console.log('Невірний постріл')
+        }
+
+        counterShellNum-- //зменш лічильника
+
+        const newField = field.flat()
+        
+        if (!newField.includes(1)) {
+          if (!field.flat().includes(1)) {
+            console.log('Вітаємо! Всі кораблі потоплені!')
+            printField(field)
+            break
+          }
+        }
+
+        if (counterShellNum === 0) {
+          console.log('Game over. Снаряди закінчились!')
+          printField(field)
+        }
+      }
+    }
+
+// ф-ція для виведення поля в консоль
+    function printField(field) {
+      for (let i = 0; i < field.length; i++) {
+        console.log(field[i].join(' ')) 
+      }
+    }
+
+// виклик ф-ції для запуску гри
+    const rows = 6
+    const cols = 6
+    const shellNum = 10 // к-сть снарядів
+    const shipNum = 5// к-сть кораблів
+    gameSeaBattle(rows, cols, shellNum, shipNum)   
+  </script>
+</body>
+</html>

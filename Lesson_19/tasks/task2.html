@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+  
+  .container {
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+}    
+    
+  </style>
+</head>
+<body>
+  <h1>Задача 2</h1>
+  <p>
+    Дано 5 елементів input. При введенні значення у якийсь із них 
+    необхідно автоматично заповнювати інші (усі попередні у спадному 
+    порядку(кожен попередній має значення на 1 менше за наступний), усі наступні на 
+    1 більше (кожен наступне на 1 більше за попереднього)
+  </p>
+
+  <div class="container">    
+
+  </div>
+  
+  <script>
+   class ListInput {
+    constructor(numEl, containerSelector) {
+      this.numEl = numEl
+      this.containerSelector = containerSelector
+      this.render()      
+    }
+
+    changeValue(e) {
+        let input = e.target
+
+        let inputValue = parseInt(input.value)
+        console.log(inputValue);
+
+        while (input.nextElementSibling !== null) {
+            input.nextElementSibling.value = inputValue += 1;
+            input = input.nextElementSibling;
+        }
+  
+        while (input.previousElementSibling !== null) {
+            input.previousElementSibling.value = inputValue -= 1;
+            input = input.previousElementSibling
+        }
+    }
+
+    render() {
+      for (let i = 1; i <= this.numEl; i++) {
+
+        this.input = document.createElement('input')
+        this.input.setAttribute('type', 'number')
+        this.input.setAttribute('id', `${i}`)
+        this.input.oninput = this.changeValue.bind(this)
+
+        if (this.containerSelector)     
+				document.querySelector(this.containerSelector).append(this.input)
+      }
+    }
+   }
+
+   window.onload = function () {
+    let res = new ListInput(5, '.container')
+   }
+  </script>
+</body>
+</html>

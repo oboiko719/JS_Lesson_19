@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Задача 2</h1>
+  <p>
+    Створити клас TMoney для роботи з грошовими сумами. Сума повинна зберігатися у вигляді 
+    доларового еквіваленту.     Реалізувати методи додавання/вилучення грошової маси, вказуючи 
+     необхідну суму у гривнях, та визначення курсу долара, при якому сума у гривнях 
+    збільшиться на 100. Курс долара зберігати в окремому полі.     
+  </p>
+  <script>
+    class TMoney {
+       #dollarBalance
+       #dollarRate
+      constructor(initGrnBalance, dollarRate) {
+        this.#dollarRate = dollarRate
+        this.Balance = initGrnBalance
+      }
+      get Balance() {
+        return this.#dollarBalance * this.#dollarRate
+      }
+      set Balance(grnSum) {
+        if (grnSum < 0) {
+          throw new Error('Помилка. Сума не може бути менша 0')
+        } else {
+          this.#dollarBalance = grnSum / this.DollarRate
+        }
+      }
+      
+      get DollarRate(){
+        return this.#dollarRate
+      }      
+      set DollarRate(newRate) {
+        if (newRate < 36 || newRate > 38) {
+          throw new Error('Некоректний курс долара')
+        } else {
+          this.#dollarRate = newRate
+        }
+      }
+
+      addMoney(grnSum) {
+        if (grnSum < 0) {
+          throw new Error('Помилка. Сума поповнення не може бути меншою за 0')
+        } else {
+          this.Balance += grnSum
+        }
+      }
+
+      getMoney(grnSum) {
+        if (grnSum < 0) {
+          throw new Error('Помилка. Сума зняття має бути більша за 0')
+        } else {
+          this.Balance -= grnSum
+        }
+      }
+
+        getTarget100Rate() {
+          return (this.Balance + 100) / this.#dollarBalance
+        }
+      
+
+      toString() {
+        return `Баланс на карті: ${this.Balance}grn - ${(this.#dollarBalance.toFixed(2))}usd<br>`
+      }
+    }
+    ;
+    const myCapital = new TMoney(3000, 37)
+    console.log(myCapital)
+    myCapital.addMoney(500)
+    console.log('Після поповнення - ')
+    console.log(myCapital)
+    myCapital.getMoney(2000)
+    console.log('Після зняття - ')
+    console.log(myCapital)
+    let newRate = myCapital.getTarget100Rate()
+    console.log(`${(newRate).toFixed(2)} - курс долара, при якому сума у гривнях збільшиться на 100  `)  
+  </script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta content="IE=edge" http-equiv="X-UA-Compatible">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<title>Document</title>
+</head>
+<body>
+	<h1>Задача 1</h1>
+	<p>
+    Створити об’єкт «Тир». У масиві зберігаються 1, якщо у цьому квадраті є заєць і 0 в іншому випадку.
+  </p>
+	<script>
+	let Tir = {
+		//властивості
+		fieldLength: 10,
+		numRubbits: 5,
+		numShots: 5,
+		field: [],
+		//методи
+		//1.заповнюємо поле нулями та зайцями
+		fillField: function() {
+			this.field = new Array(this.fieldLength).fill(0)
+			//console.log(this.field)
+      //Задача 1. Ок. Але краще було написати клас. Також у методі fillField  і++ 
+			//краще збільшувати у тому випадку, коли зайця розміщено (можливо що буде згенеровано індекс, в якому вже є заяць)
+			for (let i = 0; i < this.numRubbits;) {
+				let randomIndex = Math.floor(Math.random() * this.field.length)
+				if (this.field[randomIndex] === 0) 
+				this.field[randomIndex] = 1
+				 i++
+			}
+
+			//console.log(this.field)
+			return this.field
+		},
+
+		//2.виводимо в консоль
+		printField: function() {
+			let gameField = ''
+
+			for (i = 0; i < this.fieldLength; i++) {
+				gameField += this.field[i] + ' '
+			}
+
+			console.log(gameField);
+		},
+
+		//3.постріл
+		shoot: function(num) {
+			let index = num - 1
+			if (this.field[index] === 1) {
+				this.field[index] = 0
+				return true
+			} else {
+				return false
+			}
+		},
+
+	//4. Гра
+		gameTir: function () {
+			this.fillField()
+			console.log('Початок гри');
+			this.printField()
+			confirm('В десяти коробках заховані 5 зайців, ви маєте 5 пострілів щоб поцілити в них. Будемо грати?')
+
+			let count = 0
+
+			for (let i = 0; i < this.numShots; i++) {
+				let userShot = parseInt(prompt('Введіть номер коробки від 1 до 10'))
+
+				let result = this.shoot(userShot)
+				
+				if (result) {
+					console.log('Зайця застрелили')
+					count++
+				}	else {
+					console.log('Не попали')
+				}
+
+					console.log('Гра триває');
+					this.printField()
+			}
+			console.log(`Гра завершена. Ви влучили у ${count} зайців із ${this.numRubbits}`);
+			alert(`Гра завершена. Ви влучили у ${count} зайців із ${this.numRubbits}`)
+		}
+	}
+
+	Tir.gameTir()
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta content="IE=edge" http-equiv="X-UA-Compatible">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<title>Document</title>
+</head>
+<body>
+	<h1>Задача 3</h1>
+	<p>    
+		Користувач задає рік народження. Визначити кількість років користувача.
+	</p>
+	<form action="#" class="form">
+    <div class="form__box">
+      <label for="birthYear">рік народження</label>
+      <input id="birthYear" type="text">    
+		</div>
+		
+  </form>
+	<div>Ваш вік : <span id="userAge"></span></div>
+	<script>
+	function getAge() {
+		const curentYear = new Date().getFullYear()
+		const userBirthYear = parseInt(document.getElementById('birthYear').value)
+		let resAge = curentYear - userBirthYear
+		document.getElementById('userAge').innerText = resAge
+	}
+	window.onload = function () {
+		document.getElementById('birthYear').addEventListener('input', getAge)
+	}	
+
+	</script>
+</body>
+</html>

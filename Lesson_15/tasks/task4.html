@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>Задача 4</h1>
+  <p>
+    Розробити клас Baner
+  </p>
+
+  <script>
+
+    class Banner {
+      constructor(arrBanners) {
+        this.arrBanners = arrBanners
+      }
+
+      getRandomBanner() {
+        return Math.floor(Math.random() * this.arrBanners.length)
+      }
+
+      render() {
+        let randomBanner = this.getRandomBanner()
+        document.write(`
+        <a href='${this.arrBanners[randomBanner].link}' target='_blank'>
+        <img src='${this.arrBanners[randomBanner].image}' alt='Image'>
+        </a>
+        `)
+      }
+    }
+
+    const arrBanners = [
+      {
+        link: 'https://uk.wikipedia.org/wiki/%D0%A7%D0%B5%D1%80%D0%BD%D1%96%D0%B3%D1%96%D0%B2',
+        image: '../img/1.jpg'
+      },
+      {
+        link: 'https://uk.wikipedia.org/wiki/%D0%A7%D0%B5%D1%80%D0%BA%D0%B0%D1%81%D0%B8',
+        image: '../img/2.jpg'
+      },{
+        link: 'https://uk.wikipedia.org/wiki/%D0%A3%D0%BC%D0%B0%D0%BD%D1%8C',
+        image: '../img/3.jpg'
+      }      
+    ]
+
+    let banner = new Banner(arrBanners)
+    banner.render()
+  </script>
+</body>
+
+</html>

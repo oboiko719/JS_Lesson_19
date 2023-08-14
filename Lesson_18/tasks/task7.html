@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta content="IE=edge" http-equiv="X-UA-Compatible">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<title>Document</title>
+</head>
+<body>
+	<h1>Задача 7</h1>
+	<p>   
+		Подорож складається з 3 етапів. На кожному етапі користувач може вибрати один з 
+		видів транспорту (авто, автобус, літак - випадаючий список), харчування (сніданок, обід, вечеря – checkbоx) 
+		та одного з 3-х гідів(використати  - radio buttons). Ціни визначте самі. Підрахувати загальну вартість.
+  </p>
+	<form id="travelForm" class="form" action="#">
+		<div class="form__block">
+			<h4>Етап 1</h4>
+			<div class="form__box">
+			<label for="transport" class="form__label">Транспорт</label>
+			<select class="form__select">
+				<option value="1000">Авто</option>
+				<option value="2000">Автобус</option>
+				<option value="3000">Літак</option>
+			</select>
+		</div>
+		<div class="form__box">Харчування:
+			<label for="breakfast" class="form__label">Сніданок</label>
+			<input id="breakfast" type="checkbox" value="100" class="form__checkbox">
+			<label for="lunch" class="form__label">Обід</label>
+			<input id="lunch" type="checkbox" value="200" class="form__checkbox">
+			<label for="dinner" class="form__label">Вечеря</label>
+			<input id="dinner" type="checkbox" value="300" class="form__checkbox">									
+		</div>
+		<div class="form__box">Гід:
+			<label for="guide1"  class="form__label">Гід1</label>
+			<input id="guide1" value="500" type="radio" name="guide1" class="form__radio">
+			<label for="guide2"  class="form__label">Гід2</label>
+			<input id="guide2" value="550" type="radio" name="guide1" class="form__radio">
+			<label for="guide3"  class="form__label">Гід3</label>
+			<input id="guide3" value="555" type="radio" name="guide1" class="form__radio">
+		</div>
+		</div>
+		<div class="form__block">
+			<h4>Етап 2</h4>
+			<div class="form__box">
+			<label for="transport" class="form__label">Транспорт</label>
+			<select class="form__select">
+				<option value="1000">Авто</option>
+				<option value="2000">Автобус</option>
+				<option value="3000">Літак</option>
+			</select>
+		</div>
+		<div class="form__box">Харчування:
+			<label for="breakfast" class="form__label">Сніданок</label>
+			<input id="breakfast" type="checkbox" value="100" class="form__checkbox">
+			<label for="lunch" class="form__label">Обід</label>
+			<input id="lunch" type="checkbox" value="200" class="form__checkbox">
+			<label for="dinner" class="form__label">Вечеря</label>
+			<input id="dinner" type="checkbox" value="300" class="form__checkbox">									
+		</div>
+		<div class="form__box">Гід:
+			<label for="guide1"  class="form__label">Гід1</label>
+			<input id="guide1" value="500" type="radio" name="guide2" class="form__radio">
+			<label for="guide2"  class="form__label">Гід2</label>
+			<input id="guide2" value="550" type="radio" name="guide2" class="form__radio">
+			<label for="guide3"  class="form__label">Гід3</label>
+			<input id="guide3" value="555" type="radio" name="guide2" class="form__radio">
+		</div>
+		</div>
+		<div class="form__block">
+			<h4>Етап 3</h4>
+			<div class="form__box">
+			<label for="transport" class="form__label">Транспорт</label>
+			<select class="form__select">
+				<option value="1000">Авто</option>
+				<option value="2000">Автобус</option>
+				<option value="3000">Літак</option>
+			</select>
+		</div>
+		<div class="form__box">Харчування:
+			<label for="breakfast" class="form__label">Сніданок</label>
+			<input id="breakfast" type="checkbox" value="100" class="form__checkbox">
+			<label for="lunch" class="form__label">Обід</label>
+			<input id="lunch" type="checkbox" value="200" class="form__checkbox">
+			<label for="dinner" class="form__label">Вечеря</label>
+			<input id="dinner" type="checkbox" value="300" class="form__checkbox">									
+		</div>
+		<div class="form__box">Гід:
+			<label for="guide1"  class="form__label">Гід1</label>
+			<input id="guide1" value="500" type="radio" name="guide3" class="form__radio">
+			<label for="guide2"  class="form__label">Гід2</label>
+			<input id="guide2" value="550" type="radio" name="guide3" class="form__radio">
+			<label for="guide3"  class="form__label">Гід3</label>
+			<input id="guide3" value="555" type="radio" name="guide3" class="form__radio">
+		</div>
+		</div>		
+			<button id="calculateAmount" type="button" class="form__button">Загальна вартість</button>
+			<div>Загалом : <span id="result"></span></div>
+		
+		
+	</form>
+	
+
+	<script>
+	function getTotalPrice() {
+		const elementList = document.querySelectorAll('input[type="checkbox"]:checked, input[type="radio"]:checked, .form__select')
+			console.log(elementList);
+		let s = 0
+
+		for (const element of elementList) {
+			console.log(element.value);
+			s += parseFloat(element.value)			
+		}	
+
+		document.getElementById('result').innerText = s.toFixed(2)
+	}
+	window.onload = function () {		
+		document.getElementById('calculateAmount').onclick = getTotalPrice
+	}
+	</script>
+</body>
+</html>

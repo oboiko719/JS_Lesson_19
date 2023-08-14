@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Задача 2</h1>
+  <p>
+    Створити об’єкт «Авто».	
+Поля(властивості)	
+    Марка
+    Розмір бака
+    Кількість наявних літрів
+    Кількість місць
+    Кількість пасажирів
+Методи (дії)	
+    Заправка на вказану кількість літрів
+    Виведення кількості пасажирів
+    Додавання пасажирів
+    Висадка пасажирів
+    
+  </p>
+  <script>
+
+  class Auto {
+    constructor (brand, tankSize, availableLiters, seats, passengers) {
+      this.brand = brand,
+      this.tankSize = tankSize,
+      this.availableLiters = availableLiters,
+      this.seats = seats,
+      this.passengers = passengers
+      this.Refuel();
+      this.DisembarkPassengers();
+      this.AddPassengers();      
+      }
+
+      Refuel() {
+        const userLiters = parseInt(prompt('Введіть кількість літрів для заправки'))
+        const maxRefuelLiters = this.tankSize - this.availableLiters
+        if (userLiters <= maxRefuelLiters) {
+          this.availableLiters += userLiters          
+        }else {
+          throw new Error('Недостатньо місця у баці для заправки')
+        }
+      }
+
+      PrintPassengers() {
+        return this.passengers
+      }
+
+      DisembarkPassengers() {
+        const userPassengers = parseInt(prompt('Скільки пасажирів потрібно висадити?'))
+        if (userPassengers <= this.passengers) {
+          this.passengers -= userPassengers
+        } else {
+          throw new Error('Недостатньо пасажирів для висадки')
+        }
+      }
+
+      AddPassengers() {
+        const userPassengers = parseInt(prompt('Скільки пасажирів потрібно забрати?'))
+        const availableSeats = this.seats - this.passengers
+        if (userPassengers <= availableSeats) {
+          this.passengers += userPassengers
+        }else {
+          throw new Error('Недостатньо вільних місць для посадки для такої к-ті пасажирів')
+        }
+      }      
+
+      toString() {
+        return `<h4>
+          Ваше авто: <br>марка - ${this.brand}, розмір бака ${this.tankSize}, 
+          дозволена  пасажиромісткість${this.seats}, <br>
+          кількість пального в баці після заправки- ${this.availableLiters}, <br>
+          кількість пасажирів після висадки і посадки - ${this.passengers}
+         </h4>`
+      }      
+    }
+
+   let pr1 = new Auto('BMW', 100, 35, 18, 12)
+   document.write(pr1)
+
+  </script>
+</body>
+</html>

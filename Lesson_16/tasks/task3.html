@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta content="IE=edge" http-equiv="X-UA-Compatible">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<title>Document</title>
+</head>
+<body>
+	<h1>Задача 3</h1>
+	<p>    
+ Об’єкт “Фірма” (використати члени-класи)
+		поля	
+				назва фірми;
+				дата заснування (рік, місяць);
+				послуги (назва послуги, вартість, термін виконання);
+				адреси філіалів (країна, місто, вулиця, номер будинку);
+		методи	
+				визначення кількості років існування фірми;
+				виведення всіх філіалів фірми у вказаному місті;
+				виведення на екран послуг, що можуть бути виконані за вказану суму грошей та вказаний термін часу;
+			</p>
+	<script>
+	class Service {
+		constructor(title, price, deadline) {
+			this.title = title
+			this.price = price
+			this.deadline = deadline
+		}
+		toString() {
+				return `Назва послуги - ${this.title}, вартість - ${this.price}, термін виконання - ${this.deadline} <br>`
+		} 
+	}
+
+	class Address {
+		constructor(country, city, street, house) {
+			this.country = country
+			this.city = city
+			this.street = street
+			this.house = house
+		}
+		toString() {
+				return `${this.country},м. ${this.city}, вул. ${this.street}, б.${this.house} <br>`
+		}
+	}
+
+	class Company {
+		#title
+		constructor(title, year, services, addresses) {
+			this.#title = title
+			this.year = year
+			this.services = services
+			this.addresses = addresses
+		}
+		get Title() {
+			return this.#title
+		}
+		set Title(newVal) {
+			if (typeof newVal !== 'string') {
+				throw new Error ('Назва має бути стрінгою')
+			} 
+			if (newVal === '') {
+				throw new Error ('Пустий рядок')
+			}
+			this.#title = newVal
+		}
+			// Метод для додавання нової послуги до фірми
+			addService(title, price, deadline) {
+				const newService = new Service(title, price, deadline)
+				this.services.push(newService)
+			}
+
+			// Метод для визначення кількості років існування фірми
+			getYearsInBusiness() {
+				const currentYear = new Date().getFullYear()
+				return currentYear - this.year
+			}
+
+			// Метод для додавання нової адреси філіалу до фірми
+			addAddress(country, city, street, house) {
+				const newAddress = new Address(country, city, street, house)
+				this.addresses.push(newAddress)
+			}
+
+			// Метод для отримання списку філіалів у вказаному місті
+			getBranchesInCity(city) {
+				return this.addresses.filter(address => address.city === city)
+			}
+
+			// Метод для отримання списку послуг, які можна отримати за вказану суму грошей та вказаний термін часу
+			getServicesAmountTime(amount, time) {
+				return this.services.filter(service => service.price <= amount && service.deadline <= time)
+			}
+
+			toString() {
+				return `Фірма - ${this.Title}, Рік заснування - ${this.year}`
+			}
+	}
+
+	let services = [
+		new Service('Послуга 1', 5000, 1),
+		new Service('Послуга 2', 4000, 2),
+		new Service('Послуга 3', 3000, 4)		
+	]
+
+	let adresses = [
+		new Address('Україна', 'Чернігів', 'Набережна', '8' ),
+		new Address('Україна', 'Черкаси', 'Весела', '3' ),
+		new Address('Україна', 'Київ', 'Центральна', '15' )
+	]
+
+	const res = new Company('Dory', 2000, services, adresses);
+	console.log(res);
+
+res.addService('Консультація', 1000, 1);
+res.addAddress('Україна', 'Київ', 'Кільцева', '10');
+
+	console.log(res.getBranchesInCity('Київ'));
+	console.log(res.getServicesAmountTime(4000, 7));		
+
+	</script>
+</body>
+</html>

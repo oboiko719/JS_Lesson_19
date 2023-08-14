@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Задача 2</h1>
+  <p>
+    Дано інформацію про прибуток К магазинів протягом тижня. Знайти :
+  </p>
+
+  <script>
+    function getRandomNum(minValue, maxValue) {
+      return minValue + Math.floor(Math.random() * (maxValue - minValue + 1))
+    }
+//генерування одновимірного масиву
+    function generateRandomArray(arrayLength, minValue, maxValue) {
+      const arr = []
+
+      for (let i = 0; i < arrayLength; i++) {
+        const randNum = getRandomNum(minValue, maxValue)
+        arr.push(randNum)
+      }
+      return arr
+    }
+//генерування двовимірного масиву
+    function generateRandomTable(
+      rowsNumber, 
+      columnsNumber, 
+      minValue, 
+      maxValue
+    ) {
+      const table = []
+
+      for (let i = 0; i < rowsNumber; i++) {
+        const randomRow = generateRandomArray(columnsNumber, minValue, maxValue)
+        table.push(randomRow)
+      }
+      return table
+    }
+
+    const minValue = 100;
+    const maxValue = 300;
+    const userWeeks = parseInt(prompt('Кількість тижнів', '4'))
+    const daysNum = 7
+
+    const incomes = generateRandomTable(userWeeks, daysNum, minValue, maxValue)
+
+// 1) загальний прибуток кожного масиву за тиждень;
+function getSumTotalIncomes(incomes) {
+
+      let sum = incomes.map((week) => {
+        return week.reduce((prevSum, day) => prevSum + day,0)
+      })
+      return sum
+    }
+    
+// 3) загальний прибуток за робочі дні
+function getSumWorkingDays(incomes) {
+      let sum = 0
+
+      for (
+        let weekIndex = 0; 
+        weekIndex < incomes.length; 
+        weekIndex++) {
+          for (let dayIndex = 0; dayIndex < 5; dayIndex++) {
+            sum += incomes[weekIndex][dayIndex]
+            console.log(incomes[weekIndex][dayIndex]);
+          }
+      }
+      return sum
+    } 
+
+// 5) максимальний прибуток за середу
+function getMaxIncomesOfWednesday(incomes) {
+  let maxValue = -Infinity
+
+  for (let weekIndex = 0; weekIndex < incomes.length; weekIndex++) {
+          if(maxValue < incomes[weekIndex][2]) {
+            maxValue = incomes[weekIndex][2]
+          }
+  }
+return maxValue
+}
+
+// 6) сформувати загальний список (одновимірний масив) зі значенням, які що більші за 200
+function getTotalListMore200(incomes) {
+  let result = incomes.flat().filter((el) => el > 200)
+  return result
+}
+
+// 7) відсортувати кожен тиждень за зростанням
+function getSortIncomesOfWeek(incomes) {
+  let copyIncomes = JSON.parse(JSON.stringify(incomes))
+  for (let weekIndex = 0; weekIndex < copyIncomes.length; weekIndex++) {
+    copyIncomes[weekIndex].sort((el1, el2) => el1 - el2)
+  }
+  return copyIncomes
+}
+
+//===================================================================================
+//фунція для виведення двовимірного масиву
+function printTable(array) {
+      let table = '<table>';
+
+      for (let i = 0; i < array.length; i++) {
+        table += '<tr>';
+
+        for (let j = 0; j < array[i].length; j++) {
+          table += '<td>' + array[i][j] + '</td>';
+        }
+
+        table += '</tr>';
+      }
+
+      table += '</table>';
+      return table;
+    }
+
+//виклик фцнкцій
+const sumTotalIncomes = getSumTotalIncomes(incomes)
+const sumWorkingDays = getSumWorkingDays(incomes)
+const maxIncomesWednesday = getMaxIncomesOfWednesday(incomes)
+const sortIncomesOfWeek = getSortIncomesOfWeek(incomes)
+const totalListMore200 = getTotalListMore200(incomes)
+console.log(totalListMore200);
+
+//=============виведення результатів
+document.write(printTable(incomes))
+    document.write(`<br>`) 
+    document.write(`1) загальний прибуток кожного масиву за тиждень - [${sumTotalIncomes}]<br>`)
+    document.write(`3) загальний прибуток за робочі дні - ${sumWorkingDays}<br>`) 
+    document.write(`5) максимальний прибуток за середу - ${maxIncomesWednesday}<br>`)
+    document.write(`6) сформувати загальний список (одновимірний масив) 
+                      зі значенням, які що більші за 200 - [${totalListMore200}]<br>`) 
+    document.write('7) відсортувати кожен тиждень за зростанням)')
+document.write(printTable(getSortIncomesOfWeek(incomes)))  
+  </script>
+</body>
+</html>

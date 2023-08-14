@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>Задача 1</h1>
+  <p>
+    Описати масив об’єктів – сайтів розроблених компанією з такими властивостями
+----- Властивості ------
+-	назва компанії на час розробки (назву періодично змінюють)
+-	власник компанії
+-	споснсори (масив спонсорів)
+      * прізвище спонсора
+      * ім’я  спонсора
+      * сума вкладень спонсора
+-	рік випуску
+-	вартість сайту
+//====================
+Знайти:
+1) загальну вартість усіх сайтів
+2) кількість сайтів, що було зроблено між 2000 та 2009 рр.
+3) кількість сайтів, де сума спонсорських вкладень була більшою за 100000
+4) створити загальний список усіх спонсорів (поки можуть повторюватись, просто зібрати усі у масив)
+5) знайти рік, коли прибуток був найбільшим
+6) упорядкувати список за спаданням прибутку
+7) Створити 2 окремих списки з копіями об’єктів, що містять сайти з вартість до 10000 і більше 10000
+
+  </p>
+
+  <script>
+    let companyWebsites = [
+      {
+        companyName: 'WEB Company 1',
+        companyOwner: 'Ivan Ivanenko',
+        sponsors:
+        [
+              {
+                secondName: 'Jenny',
+                firstName: 'Denny',
+                investAmount: 30000
+              },
+              {
+                secondName: 'Jonny',
+                firstName: 'Donny',
+                investAmount: 40000
+              }          
+        ],
+        productionYear: 2018,
+        price: 12000
+      },
+      {
+        companyName: 'WEB Company 2',
+        companyOwner: 'Petro Petrenko',
+        sponsors:
+        [
+              {
+                secondName: 'Dark',
+                firstName: 'Alisa',
+                investAmount: 20000
+              },
+              {
+                secondName: 'Mark',
+                firstName: 'William',
+                investAmount: 50000
+              }          
+        ],
+        productionYear: 2005,
+        price: 8000
+      },
+      {
+        companyName: 'WEB Company 3',
+        companyOwner: 'Pavlo Pavlenko',
+        sponsors:
+        [
+              {
+                secondName: 'Black',
+                firstName: 'Jon',
+                investAmount: 30000
+              },
+              {
+                secondName: 'Milli',
+                firstName: 'Marfa',
+                investAmount: 80000
+              }          
+        ],
+        productionYear: 2002,
+        price: 15000
+      }
+    ]
+//============================
+// 1) загальну вартість усіх сайтів
+const totalPrice = companyWebsites.reduce((prevSum, website) => prevSum + website.price,0)
+
+// 2) кількість сайтів, що було зроблено між 2000 та 2009 рр.
+const websitesYear2000To2009 = companyWebsites.reduce((prevSum, website) => 
+                              website.productionYear>2000 && website.productionYear<2009 ? prevSum + 1: prevSum,0)
+
+// 3) кількість сайтів, де сума спонсорських вкладень була більшою за 100000
+let websitesInvestAmount100000 = 0
+  for (const website of companyWebsites) {
+    const sumInvestAmount = website.sponsors.reduce((prevSum, sponsor) => prevSum + sponsor.investAmount, 0)
+    if (sumInvestAmount > 100000) websitesInvestAmount100000++  
+  }
+
+// 4) створити загальний список усіх спонсорів (поки можуть повторюватись, просто зібрати усі у масив)
+const sponsorsList = companyWebsites.reduce((prevArr, website) => {
+  prevArr = prevArr.concat(website.sponsors);
+  return prevArr;
+  }, []);
+ console.log(sponsorsList);
+
+// 5) знайти рік, коли прибуток був найбільшим
+ const maxProfitYear = companyWebsites.reduce((prevValue, website) => website.price > prevValue.price ? website : prevValue);
+
+// 6) упорядкувати список за спаданням прибутку
+const sortCompanyWebsites = (JSON.parse(JSON.stringify(companyWebsites))).sort((a, b) => b.price - a.price)
+console.log(sortCompanyWebsites);
+
+// 7) Створити 2 окремих списки з копіями об’єктів, що містять сайти з вартість до 10000 і більше 10000
+//Спосіб 1. не копіюємо обєкти
+// const listTo10000 = companyWebsites.filter((website) => website.price < 10000)
+// console.log(listTo10000);
+// const listMore10000 = companyWebsites.filter((website) => website.price > 10000)
+// console.log(listMore10000);
+//Спосіб 2. створюємо копії \
+let listTo10000 = []
+let listMore10000 = []
+for (const website of companyWebsites) {
+  if (website.price < 10000) listTo10000.push(JSON.parse(JSON.stringify(website)))
+  else if (website.price > 10000) listMore10000.push(JSON.parse(JSON.stringify(website)))
+}
+
+//===========================
+document.write(`1.Загальну вартість усіх сайтів - ${totalPrice} <br>`)
+document.write(`2) кількість сайтів, що було зроблено між 2000 та 2009 рр. - ${websitesYear2000To2009} <br>`)
+document.write(`3) кількість сайтів, де сума спонсорських вкладень була більшою за 100000 - ${websitesInvestAmount100000} <br>`)
+
+// document.write(`4) створити загальний список усіх спонсорів (поки можуть повторюватись, просто зібрати усі у масив)</br>`)
+// sponsorsList.map((sponsor, index) => {document.write(`${index}. ${sponsor.firstName} ${sponsor.secondName} - ${sponsor.investAmount}<br>`)})
+
+document.write(`5) знайти рік, коли прибуток був найбільшим - ${maxProfitYear.productionYear} <br>`)
+  </script>
+</body>
+
+</html>

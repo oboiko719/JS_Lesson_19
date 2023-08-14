@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta content="IE=edge" http-equiv="X-UA-Compatible">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<title>Document</title>
+</head>
+<body>
+	<h1>Задача 5</h1>
+	<p>
+		Користувач задає кількість рядків і стовпців. Відобразити таблицю, у клітинках якої знаходяться числа 1, 2, 3, …   
+  </p>
+	<form action="#" class="form">
+    <div class="form__box">
+      <label for="rowsNum">Кількість рядків</label>
+      <input id="rowsNum" type="number">
+			<label for="colsNum">Кількість стовпців</label>
+      <input id="colsNum" type="number">
+    </div>
+    <button id="addTable" type="button">Вставити таблицю</button>
+	</form>	
+	<script>
+		function createdTable (rowsNum, colsNum) {
+			const table = document.createElement('table')
+			let count = 1
+			for (let i = 0; i < rowsNum; i++) {
+				let tr = document.createElement('tr')
+				for (let j = 0; j < colsNum; j++) {
+					let td = document.createElement('td')
+					td.style.border = '1px solid black'
+					td.innerHTML = count
+					tr.append(td)
+					count++
+				}
+				table.append(tr)
+			}
+			document.body.append(table)
+		}
+
+		window.onload = function () {
+    const addTableButton = document.getElementById('addTable')
+
+			addTableButton.onclick = function () {
+				const rows = parseInt(document.getElementById('rowsNum').value)
+			  const cols = parseInt(document.getElementById('colsNum').value)
+				
+				createdTable(rows, cols)
+			}
+		}
+
+	</script>
+</body>
+</html>

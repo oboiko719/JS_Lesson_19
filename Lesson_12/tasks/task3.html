@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Задача 3</h1>
+  <p>
+    Дано масив 30 випадкових цілих чисел. Підрахувати скільки було обмінів під час сортування включеннями.
+  </p>
+
+  <script>
+function getRandomNum(minValue, maxValue) {
+      return minValue + Math.floor(Math.random() * (maxValue - minValue + 1))
+    }
+//генерування одновимірного масиву
+function generateRandomArray(arrayLength, minValue, maxValue) {
+      const arr = []
+
+      for (let i = 0; i < arrayLength; i++) {
+        const randNum = getRandomNum(minValue, maxValue)
+        arr.push(randNum)
+      }
+      return arr
+    }
+//функція сортування 'включенням'
+function insertSort(arr) {
+  let counter = 0
+
+  for (let k = 0; k < arr.length; k++) { //проходимо по всіх елементах масиву
+    const currentElement = arr[k] //у змінну зберігаємо поточний елемент
+    let i = k - 1 //беремо попердній елемент масиву і присвоюємо значення його індексу в змінну і
+
+    while (i >= 0 && arr[i] > currentElement) { //перевіряємо чи індекс додатній і чи елемент > за поточнмий елемент
+      arr[i + 1] = arr[i]
+      i = i - 1
+      counter++ 
+    }
+
+    arr[i + 1] = currentElement
+    counter++    
+  }
+  return counter
+} 
+
+//виклик функцій з введеними параметрами
+    const minValue = 1;
+    const maxValue = 100;
+    const arrayLength = 30
+
+    const arr = generateRandomArray(arrayLength, minValue, maxValue)
+    const sortInsert = insertSort(arr)
+//виведення результатів
+    document.write(`[${arr}]`)
+    document.write(`<br>`)
+    document.write(`${sortInsert} - обмінів під час сортування включенням`)   
+  </script>
+</body>
+</html>

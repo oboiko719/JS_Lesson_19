@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta content="IE=edge" http-equiv="X-UA-Compatible">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<title>Document</title>
+	<style>
+		.border {
+    	border: 2px solid red;
+		}
+		.table-container {
+			display: flex;
+			gap: 30px;
+		}
+		table {
+			border: 2px solid #000;
+		}
+		td {
+			border: 1px solid #000;
+			padding: 10px;
+		}
+	</style>
+</head>
+<body>
+	<h1>Задача 4</h1>
+	<p>
+		Дано 3 таблиці розмірності 3*3 з випадковими числами. Якщо відбувається 
+		клік на якійсь із клітинок, то до відповідної таблиці додається червона рамка 
+		(спробуйте додати можливість відображення кількості кліків біля назви таблиці 
+		з використанням відповідно доданого для цього атрибута).  
+    </p>
+		<div class="table-container"></div>
+	<script>
+		class Table {
+			constructor (numTable, rows, cols) {
+				this.rows = rows
+				this.cols = cols
+				this.numTable = numTable
+			}
+
+			getRandomNum(min, max) {
+		        return min + Math.floor(Math.random() * (max - min +1))
+		      }
+
+			render(containerSelector) {
+				for (let k = 1; k <= this.numTable; k++) {
+					const table = document.createElement('table')
+					const caption = document.createElement('caption')
+					caption.innerText = `Таблиця ${k}`
+					const span = document.createElement('span')
+					span.innerText = 0;				
+
+					table.append(caption)
+					table.append(span)
+					for (let i = 0; i < this.rows; i++) {
+						const tr = document.createElement('tr')
+						for (let j = 0; j < this.cols; j++) {
+							const td = document.createElement('td')
+							const randomNum = this.getRandomNum(1, 10)
+							td.innerText = randomNum
+
+							td.onclick = this.changeBorder.bind(this)
+
+							tr.append(td)
+						}
+						table.append(tr)
+					}
+					if (containerSelector)
+								document.querySelector(containerSelector).append(table)
+				}
+			}
+			
+			changeBorder(e) {
+				let target = e.target;
+
+        if (target.closest('td')) {
+            let allTables = document.querySelectorAll('table');
+            allTables.forEach((table) => {
+                table.classList.remove('border');
+            });
+
+						const count = target.closest('table').querySelector('span')
+
+						count.innerText = +count.innerText + 1
+
+            let table = target.closest('table')
+            table.classList.add('border')
+        }
+
+    	}
+		}
+
+		window.onload = function () {
+			let tables = new Table(3, 3, 3)
+			tables.render('.table-container')
+		}
+	
+	</script>
+</body>
+</html>

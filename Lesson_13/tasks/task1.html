@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>Задача 1</h1>
+  <p>
+    Розв’язати з використанням рекурсивних і нерекурсивних алгоритмів
+  </p>
+
+  <script>
+     function getResultRecursive(i) {
+      if (i === 0) return 1
+      else return getResultRecursive(i-1) + 2 * i
+     }     
+
+     function getResult(i) {
+      if (i === 0) return 1
+
+      let sum = 1
+      for (let j = 1; j <= i; j++) {
+         sum = sum + 2 * j
+      }
+
+      return sum
+     }
+//виклик ф-цій і виведення результатів
+     let res1 = getResultRecursive(10) 
+     let res2 = getResult(10)
+     document.write(res1)
+     document.write(`<br>`)
+     document.write(res2)
+  </script>
+</body>
+
+</html>

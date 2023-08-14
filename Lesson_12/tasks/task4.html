@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>Задача 4</h1>
+  <p>
+    Для розглянутих методів сортування спробувати вивести етапи сортування шляхом виведення відповідних таблиць за зразком
+    Тобто кожного разу після обміну елементів вивести поточний стан масиву на екран.
+  </p>
+
+  <script>
+    function getRandomNum(minValue, maxValue) {
+      return minValue + Math.floor(Math.random() * (maxValue - minValue + 1))
+    }
+//генерування одновимірного масиву
+    function generateRandomArray(arrayLength, minValue, maxValue) {
+      const arr = []
+
+      for (let i = 0; i < arrayLength; i++) {
+        const randNum = getRandomNum(minValue, maxValue)
+        arr.push(randNum)
+      }
+      return arr
+    }
+
+//функція сортування 'бульбашкою'
+function swap(arr, i, j) {
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+}
+
+function bubbleSort(arr) {
+  let changed
+  
+  do{
+    changed = false 
+    
+    for (let i = 0; i < arr.length; i++) { 
+      if (arr[i-1] > arr[i]) { 
+        swap(arr, i-1, i)
+        
+        document.write(`[${arr}] <br>`)
+        
+       changed = true 
+      }
+    }
+  }
+  while(changed)   
+} 
+
+//виклик функцій з введеними параметрами
+      const minValue = 1;
+      const maxValue = 10;
+      const arrayLength = 8    
+    const arr = generateRandomArray(arrayLength, minValue, maxValue)
+    const sortBubble = bubbleSort(arr)
+
+  </script>
+</body>
+
+</html>
